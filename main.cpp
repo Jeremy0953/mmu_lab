@@ -150,7 +150,7 @@ public:
             victim_frame_index = 0;
         }
 
-        bool update_reference = (instruction_count - last_referenced >= 50) ? true : false;
+        bool update_reference = (instruction_count - last_referenced >= 48) ? true : false;
 
         frame_t* victim_frame = victim_table[victim_frame_index];
         Process* p = proc_vector[victim_frame->pid];
@@ -175,7 +175,7 @@ public:
             //int victim_pte_level = 2 * victim_pte->REFERENCED + victim_pte->MODIFIED;
             victim_frame_index += 1;
 
-            if (curr_class == 0 && instruction_count < 50) {
+            if (curr_class == 0 && instruction_count < 48) {
                 victim_frame = curr_frame;
                 break;
             } else if (curr_class < lowest_class) {
