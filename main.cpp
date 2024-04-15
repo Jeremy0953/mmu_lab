@@ -390,17 +390,17 @@ void readFile(char* inputPtr, char* rfilePtr){
     }
     inputFile.close();
     char buff[MAX_SIZE];
-        string rFileName(rfilePtr);
-        ifstream rFile(rFileName);
-        rFile.getline(buff, MAX_SIZE); // get the first line, that's '40000'
-        int num = atoi(buff); // num: 40000
-        rand_num = num;
-        randvals = new int[num];
-        for(int i = 0; i < num; i++) {  // get the rest 40000 numbers
-            rFile.getline(buff, MAX_SIZE);
-            randvals[i] = atoi(buff);
-        }
-        rFile.close();
+    string rFileName(rfilePtr);
+    ifstream rFile(rFileName);
+    rFile.getline(buff, MAX_SIZE); // get the first line, that's '40000'
+    int num = atoi(buff); // num: 40000
+    rand_num = num;
+    randvals = new int[num];
+    for(int i = 0; i < num; i++) {  // get the rest 40000 numbers
+        rFile.getline(buff, MAX_SIZE);
+        randvals[i] = atoi(buff);
+    }
+    rFile.close();
 }
 void initialize_frame_table(int frame_size){
     for(int i = 0; i < frame_size; i++){
