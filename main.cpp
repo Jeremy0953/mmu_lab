@@ -387,8 +387,9 @@ void readFile(char* inputPtr, char* rfilePtr){
             instruction_list.push_back(p);
         }
         inst_count = instruction_list.size();
-
-        char buff[MAX_SIZE];
+    }
+    inputFile.close();
+    char buff[MAX_SIZE];
         string rFileName(rfilePtr);
         ifstream rFile(rFileName);
         rFile.getline(buff, MAX_SIZE); // get the first line, that's '40000'
@@ -400,8 +401,6 @@ void readFile(char* inputPtr, char* rfilePtr){
             randvals[i] = atoi(buff);
         }
         rFile.close();
-    }
-    inputFile.close();
 }
 void initialize_frame_table(int frame_size){
     for(int i = 0; i < frame_size; i++){
