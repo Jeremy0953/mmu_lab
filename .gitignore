@@ -1,2 +1,4 @@
 /outputs/*
 .vscode/*
+/outputs_my/*
+/build/*
