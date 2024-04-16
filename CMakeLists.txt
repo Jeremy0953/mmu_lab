@@ -15,4 +15,4 @@ add_executable(mmu main.cc sim.cc proc.cc pager.cc)
 include_directories(${CMAKE_SOURCE_DIR})
 
 # 添加编译器标志以启用AddressSanitizer
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -fno-omit-frame-pointer -g")
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -fno-omit-frame-pointer -g")
