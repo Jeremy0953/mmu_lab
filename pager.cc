@@ -137,38 +137,37 @@ frame_t* AGING::select_victim_frame(){
         victim_frame_index = (victim_frame->frame_id == frame_size) ? 0 : victim_frame->frame_id + 1;
         return victim_frame;
     }
-frame_t* WS::select_victim_frame(){
+frame_t* WS::select_victim_frame() {
+    unsigned long long min_time = ULLONG_MAX;
+    frame_t* victim_frame = victim_table[victim_frame_index];
 
-        unsigned long long min_time = ULLONG_MAX;
-        frame_t* victim_frame = victim_table[victim_frame_index];
-
-        for(int i = 0; i < frame_size; i++){
-
-            if(victim_frame_index >= frame_size){
-                victim_frame_index = 0;
-            }
-
-            frame_t* curr_frame = victim_table[victim_frame_index];
-            pte_t* curr_pte = proc_manager->get_pte(curr_frame->pid, curr_frame->vpage);
-            unsigned long long frame_age = instruction_count - curr_frame->last_used_time;
-
-            if(curr_pte->REFERENCED == 1){
-                curr_pte->REFERENCED = 0;
-                curr_frame->last_used_time = instruction_count;
-            }else{
-                if(frame_age > TAU) {
-                    break;
-                }
-                else if(curr_frame->last_used_time < min_time){
-                    victim_frame = curr_frame;
-                    min_time = curr_frame->last_used_time;
-                }
-            }
-            victim_frame_index += 1;
+    for(int i = 0; i < frame_size; i++) {
+        if(victim_frame_index >= frame_size) {
+            victim_frame_index = 0;
         }
-        victim_frame_index = ((victim_frame->frame_id == frame_size) ? 0 : victim_frame->frame_id + 1);
-        return victim_frame;
+
+        frame_t* curr_frame = victim_table[victim_frame_index];
+        pte_t* curr_pte = proc_manager->get_pte(curr_frame->pid, curr_frame->vpage);
+        unsigned long long frame_age = instruction_count - curr_frame->last_used_time;
+
+        if(curr_pte->REFERENCED == 1) {
+            curr_pte->REFERENCED = 0;
+            curr_frame->last_used_time = instruction_count;
+        } else {
+            if(frame_age > TAU) {
+                victim_frame = curr_frame;
+                break;
+            }
+            else if(curr_frame->last_used_time < min_time) {
+                victim_frame = curr_frame;
+                min_time = curr_frame->last_used_time;
+            }
+        }
+        victim_frame_index += 1;
     }
+    victim_frame_index = ((victim_frame->frame_id == frame_size) ? 0 : victim_frame->frame_id + 1);
+    return victim_frame;
+}
 
 frame_t* RANDOM::select_victim_frame(){
         if(ofs == my_random.rand_num){
